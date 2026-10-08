@@ -1,0 +1,11 @@
+parcel_id,destination,weight,value,deadline,priority
+P01,A,4,60,2,High
+P02,B,2,35,1,High
+P03,C,6,80,4,Medium
+P04,D,3,45,3,High
+P05,E,5,70,2,Medium
+P06,F,1,20,1,Low
+P07,G,7,100,5,High
+P08,H,2,25,3,Low
+P09,I,2,30,3,High
+
