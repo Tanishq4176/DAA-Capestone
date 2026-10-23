@@ -5,6 +5,10 @@ from heapq import heappop, heappush
 
 def dijkstra(graph, start):
     """Return shortest distances and previous-node links from start."""
+    if start not in graph:
+        raise ValueError(f"Start node {start!r} is not present in the graph")
+    if any(weight < 0 for edges in graph.values() for weight in edges.values()):
+        raise ValueError("Dijkstra's algorithm requires non-negative edge weights")
     distances = {node: float("inf") for node in graph}
     previous = {node: None for node in graph}
     distances[start] = 0
@@ -34,7 +38,7 @@ def shortest_path(previous, destination):
 
     while current is not None:
         path.append(current)
-        current = previous[current]
+        current = previous.get(current)
 
     return list(reversed(path))
 

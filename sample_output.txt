@@ -1,0 +1,29 @@
+MINI COURIER PLANNER
+Vehicle capacity: 12 kg
+
+Prioritized parcels (priority, then earliest deadline):
+  P02 -> B | High   | deadline 1 | 2 kg | benefit 120
+  P01 -> A | High   | deadline 2 | 4 kg | benefit 140
+  P04 -> D | High   | deadline 3 | 3 kg | benefit 120
+  P09 -> I | High   | deadline 3 | 2 kg | benefit 105
+  P07 -> G | High   | deadline 5 | 7 kg | benefit 165
+  P05 -> E | Medium | deadline 2 | 5 kg | benefit 130
+  P03 -> C | Medium | deadline 4 | 6 kg | benefit 130
+  P06 -> F | Low    | deadline 1 | 1 kg | benefit 65
+  P08 -> H | Low    | deadline 3 | 2 kg | benefit 60
+
+Packing plan: P02, P01, P04, P09, P06
+Total weight: 12/12 kg
+Optimal benefit: 550
+Unused capacity: 0 kg
+DP table: 10 x 13
+
+Shortest paths from warehouse:
+  Warehouse -> B | 2 km
+  Warehouse -> B -> A | 3 km
+  Warehouse -> B -> D | 6 km
+  Warehouse -> B -> D -> I | 9 km
+  Warehouse -> B -> F | 8 km
+
+Nearest-neighbor route: Warehouse -> B -> A -> D -> F -> I -> Warehouse
+Total route distance: 23 km
