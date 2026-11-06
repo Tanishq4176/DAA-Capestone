@@ -1,7 +1,25 @@
 MINI COURIER PLANNER
+Student: Tanishq
+Integrated prototype: sorting + 0/1 knapsack DP + Dijkstra + nearest-neighbor TSP
 Vehicle capacity: 12 kg
+Parcels file: parcels.csv
+Routes file: routes.csv
 
-Prioritized parcels (priority, then earliest deadline):
+Road graph (undirected adjacency list, distance in km):
+  A: B:1, D:5, E:8, Warehouse:4
+  B: A:1, C:3, D:4, F:6, Warehouse:2
+  C: B:3, E:2, G:5, Warehouse:7
+  D: A:5, B:4, F:2, I:3
+  E: A:8, C:2, G:3, H:4
+  F: B:6, D:2, H:3, I:4
+  G: C:5, E:3, H:2
+  H: E:4, F:3, G:2, I:2
+  I: D:3, F:4, H:2
+  Warehouse: A:4, B:2, C:7
+
+Phase 2 sorting: Python Timsort, key = (-priority_score, deadline).
+Timsort is stable, so equal priority+deadline parcels keep input order.
+Prioritized parcels (High to Low, then earliest deadline):
   P02 -> B | High   | deadline 1 | 2 kg | benefit 120
   P01 -> A | High   | deadline 2 | 4 kg | benefit 140
   P04 -> D | High   | deadline 3 | 3 kg | benefit 120
@@ -16,14 +34,30 @@ Packing plan: P02, P01, P04, P09, P06
 Total weight: 12/12 kg
 Optimal benefit: 550
 Unused capacity: 0 kg
-DP table: 10 x 13
+DP table size: 10 rows x 13 columns (O(nC) time and space)
 
-Shortest paths from warehouse:
+0/1 knapsack DP table (rows = parcels considered, columns = remaining kg):
+        cap->    0    1    2    3    4    5    6    7    8    9   10   11   12
+  (none)      0    0    0    0    0    0    0    0    0    0    0    0    0
+  P02         0    0  120  120  120  120  120  120  120  120  120  120  120
+  P01         0    0  120  120  140  140  260  260  260  260  260  260  260
+  P04         0    0  120  120  140  240  260  260  260  380  380  380  380
+  P09         0    0  120  120  225  240  260  345  365  380  380  485  485
+  P07         0    0  120  120  225  240  260  345  365  380  380  485  485
+  P05         0    0  120  120  225  240  260  345  365  380  380  485  485
+  P03         0    0  120  120  225  240  260  345  365  380  380  485  485
+  P06         0   65  120  185  225  290  305  345  410  430  445  485  550
+  P08         0   65  120  185  225  290  305  350  410  430  470  490  550
+
+Shortest paths from warehouse (Dijkstra, non-negative km):
   Warehouse -> B | 2 km
   Warehouse -> B -> A | 3 km
   Warehouse -> B -> D | 6 km
   Warehouse -> B -> D -> I | 9 km
   Warehouse -> B -> F | 8 km
 
-Nearest-neighbor route: Warehouse -> B -> A -> D -> F -> I -> Warehouse
+Nearest-neighbor stop order: Warehouse -> B -> A -> D -> F -> I -> Warehouse
+Expanded road path: Warehouse -> B -> A -> D -> F -> I -> D -> B -> Warehouse
 Total route distance: 23 km
+
+Note: nearest-neighbor is a TSP approximation. It is not guaranteed to be a globally shortest tour.
